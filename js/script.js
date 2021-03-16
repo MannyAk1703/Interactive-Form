@@ -56,11 +56,13 @@ shirtDesign.addEventListener("change", (e) => {
   for (let i = 0; i < color.length; i++) {
     const value = selected.value;
     const dataTheme = color[i].getAttribute("data-theme");
-    console.log(dataTheme);
+    console.log(value);
     if (dataTheme === value) {
       color[i].hidden = false;
+      shirtColor.options[4].selected = true;
     } else {
       color[i].hidden = true;
+      shirtColor.options[1].selected = true;
     }
   }
 });
@@ -140,6 +142,62 @@ function isValid(element) {
   parEl.classList.remove("not-valid");
   parEl.lastElementChild.style.display = "none";
 }
+
+//Event listner for all the validation fields.
+form.addEventListener("submit", (e) => {
+  if (!nameValidator()) {
+    if (userName.value.length > 0) {
+      nameHint.innerHTML = "Name cannot contain numbers or punctuation";
+    } else {
+      nameHint.innerHTML = "Name field cannot be left blank";
+    }
+    isInvalid(userName);
+    e.preventDefault();
+  } else {
+    isValid(userName);
+  }
+
+  if (!emailValidator()) {
+    isInvalid(userEmail);
+    e.preventDefault();
+  } else {
+    isValid(userEmail);
+  }
+
+  if (!registerValidator()) {
+    const parEl = e.target.parentElement;
+    parEl.classList.add("not-valid");
+    parEl.classList.remove("valid");
+    e.preventDefault();
+    document.querySelector("#activities-hint").style.display = "block";
+  } else {
+    const parEl = e.target.parentElement;
+    parEl.classList.add("valid");
+    parEl.classList.remove("not-valid");
+    document.querySelector("#activities-hint").style.display = "none";
+  }
+
+  if (userPayment.value === "credit-card") {
+    if (!cardNumberValidator()) {
+      isInvalid(cardNumber);
+      e.preventDefault();
+    } else {
+      isValid(cardNumber);
+    }
+    if (!zipValidator()) {
+      isInvalid(zip);
+      e.preventDefault();
+    } else {
+      isValid(zip);
+    }
+    if (!cvvValidator()) {
+      isInvalid(cvv);
+      e.preventDefault();
+    } else {
+      isValid(cvv);
+    }
+  }
+});
 
 // Adds and Removes .focus class for checkbox parents
 checkBoxes.forEach((e) => {

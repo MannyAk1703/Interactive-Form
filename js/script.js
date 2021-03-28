@@ -212,7 +212,7 @@ checkBoxes.forEach((e) => {
   });
 });
 
-// validates userNamee on keyup.
+// validates userName on keyup.
 userName.addEventListener("keyup", (e) => {
   if (!nameValidator()) {
     if (userName.value.length > 0) {
